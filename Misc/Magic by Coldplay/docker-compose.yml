@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  magic:
+    build: .
+    container_name: miscmagic
+    restart: always
+    ports:
+      - "60000:60000"
+    volumes:
+      - ./LEVEL1/:/home/magic/LEVEL1
+      - ./LEVEL2/:/home/magic/LEVEL2
+      - ./LEVEL3/:/home/magic/LEVEL3
+      - ./LEVEL4/:/home/magic/LEVEL4

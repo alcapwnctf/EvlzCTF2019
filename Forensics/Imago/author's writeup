@@ -1,0 +1,12 @@
+> Given file can be concluded to be a PNG through it's magic bytes or through the "file" command in a terminal.
+
+> An attempt at viewing the image gives a CRC error. This is resolved by editing the metadata of the image. This can be done in 2 ways: 
+	1. Use mathematical formulae to resolve errors. 
+	2. Use tools like "pngcheck" to calculate the errors for you.
+
+> Resolving error enables you to view the image. However, the resulting image seems to only show half the flag.
+		==> Since this is the only image supplied, something has to be done about it's dimensions.
+
+> Exiftool shows the device to be OnePlus5. However some of the data, like the aspect ratio, doesn't seem to belong to the said device. Since aspect ratio has something to do with the dimensions, we can play with that.
+
+> Edit the IDATA chunk of the png to correct the given aspect ratio to 4:3 and resolve the following CRC errors to get the full image, and thus, the whole flag.

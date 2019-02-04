@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  shroud:
+    build: .
+    container_name: revshroud
+    restart: always
+    ports:
+      - "40000:40000"

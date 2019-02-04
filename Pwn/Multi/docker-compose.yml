@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  multi:
+    build: .
+    container_name: pwnmulti
+    restart: always
+    ports:
+      - "31337:31337"

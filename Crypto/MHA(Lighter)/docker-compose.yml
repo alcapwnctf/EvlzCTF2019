@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  hashcol:
+    build: .
+    container_name: cryptohashcol
+    restart: always
+    ports:
+      - "9000:9000"

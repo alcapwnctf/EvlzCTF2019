@@ -1,0 +1,20 @@
+Our teacher accidentaly E-mailed me the list of our class' final marks this semister.
+I, being a good friend, added names of my friends who did not give the exams this time and gave them good marks.
+I also found this wierd looking string in the mail: 4f53326a45744749636c6b746f784449636c7447
+Our teacher hashed the list and sent the list along with its hash.
+I tried all known hashing algorithms but couldn't figure out which algorithm was it.
+Then I realised my teacher was working on his own hashing algorithm, he might have used that to hash the list.
+I looked up on his github profile and found this omitted code along with a pdf explaining the algorithm of his hashing algorithm.
+Help me finish his code and generate the correct hash.
+
+There are the changes made by me(in that order):
+
+Rishab Bansal 78151298227 82 87 65 98 87
+Swapnil Kumar 78187651227 67 47 95 88 57
+AArush Ahuja 915369651227 76 65 59 38 67
+Hardik Manocha 1612341227 53 49 76 69 83
+Bhanu Pratap 873690341227 65 54 29 48 67
+
+
+
+#Flag format: evlz{correct_hash}ctf

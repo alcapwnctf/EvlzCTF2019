@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Don't Do Drugs, Kids
+{% endblock %}
+
+{% block body %}
+    <div class = 'container'>
+        <div class = 'w-100 mx-auto' style='padding:10vh'>
+            <h1 class = 'mx-auto'>Hasher</h1>
+            <form action='/result' method=post enctype=multipart/form-data>
+                <div class='form-group'>
+                    <label for="file1">File 1</label>
+                    <input type="file" class="form-control-file" name="file1" id="file1">
+                </div>
+                <div class='form-group'>
+                    <label for="file2">File 2</label>
+                    <input type="file" class="form-control-file" name="file2" id="file2">
+                </div>
+                <div class = 'form-group'>
+                    <button type='sumbit' class='btn btn-lg'>Verify</button>
+                </div>
+            </form>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class=flashes>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+                {% endwith %}
+        </div>
+    </div>
+
+{% endblock%}

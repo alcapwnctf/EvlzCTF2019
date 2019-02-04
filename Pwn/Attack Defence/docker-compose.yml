@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  attackd:
+    build: .
+    container_name: pwnattackd
+    restart: always
+    ports:
+      - "31336:31336"

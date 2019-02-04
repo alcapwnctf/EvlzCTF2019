@@ -1,0 +1,6 @@
+version: "2"
+services:
+    app:
+      image: iamalsaher/jail_1:ques
+      ports:
+        - "2220:22"

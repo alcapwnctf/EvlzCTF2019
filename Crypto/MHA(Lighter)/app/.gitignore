@@ -1,0 +1,8 @@
+/__pycache__/
+/coinstealer/
+/migrations/
+*.pyc
+.vscode
+users.db
+checkdb.py
+/chosen-plaintext/

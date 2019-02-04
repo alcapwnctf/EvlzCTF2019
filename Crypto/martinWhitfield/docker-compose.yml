@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  dhke:
+    build: .
+    container_name: cryptodhke
+    restart: always
+    ports:
+      - "50000:50000"

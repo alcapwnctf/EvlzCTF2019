@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  shell-ctf:
+    build: ./
+    ports:
+      - "1333:22"
+    restart: always
