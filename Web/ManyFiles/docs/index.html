@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Scannie</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            html {
+                font-family: 'Roboto', sans-serif;     
+            }
+            .grid-container-top {
+                display: grid;
+                padding: 10px;
+                grid-template-columns: 50% 50%;
+                grid-template-rows: auto;
+            }
+            .grid-container-right {
+                disply: grid;
+                padding: 10px;
+                grid-template-columns: auto;
+                grid-template-rows: auto auto;
+            }
+            .grid-column {
+                grid-column: auto | auto;
+                padding: 10px;
+                margin: 10px;
+            }
+            .grid-row {
+                grid-row: auto | auto;
+                padding: 10px;
+                margin: 10px;
+            }
+
+            table.center {
+                width:70%; 
+                margin-left:15%; 
+                margin-right:15%;
+            }
+
+            table.minimalistBlack {
+                margin: 0 auto;
+                border: 3px solid #000000;
+                width: 50%;
+                border-collapse: collapse;
+            }
+            table.minimalistBlack td, table.minimalistBlack th {
+                /* border: 1px solid #000000; */
+                padding: 5px 4px;
+            }
+            table.minimalistBlack tbody {
+                max-height: 250px !important;
+                overflow: auto;
+                display: block;
+            }
+            table.minimalistBlack tbody td {
+                font-size: 13px;
+            }
+            table.minimalistBlack thead {
+                background: #CFCFCF;
+                background: -moz-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+                background: -webkit-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+                background: linear-gradient(to bottom, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+                border-bottom: 3px solid #000000;
+            }
+            table.minimalistBlack thead th {
+                font-size: 15px;
+                font-weight: bold;
+                color: #000000;
+                text-align: left;
+            }
+            table.minimalistBlack tfoot {
+                font-size: 14px;
+                font-weight: bold;
+                color: #000000;
+                border-top: 3px solid #000000;
+            }
+            table.minimalistBlack tfoot td {
+                font-size: 14px;
+            }
+            .button {
+            display: inline-block;
+            margin: 0;
+            padding: 0.75rem 1rem;
+            border: 0;
+            border-radius: 0.317rem;
+            background-color: #aaa;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            line-height: 1.5;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -webkit-font-smoothing: antialiased;
+            }
+
+            .button:hover {
+                opacity: 0.85;
+            }
+
+            .button:active {
+                box-shadow: inset 0 3px 4px hsla(0, 0%, 0%, 0.2);
+            }
+
+            .button:focus {
+                outline: thin dotted #444;
+                outline: 5px auto -webkit-focus-ring-color;
+                outline-offset: -2px;
+            }
+
+            .button_primary {
+                background-color: #1fa3ec;
+            }
+        </style>
+    </head>
+<body>
+    <div style='text-align:center'>
+        <h1>Scannie</h1>
+    </div>
+
+    <div class='grid-container-top'>
+        <div class='grid-column'>
+            <div class='rule-input'>
+                <div style='text-align:center'>
+                    <div>
+                        <textarea cols='60' style='max-width:90%;min-height:400px' id='rule'></textarea>
+                        <div>
+                            <button class='button button_primary' onclick='scanFiles()'>Scan</button>  
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class='grid-container-right'>
+            <div class='grid-row' style='min-height:50%;text-align:center;'>
+                <h1>Directory Listing</h1>
+                <div id='fileList'>
+
+                </div>
+            </div>
+            <div class='grid-row' style='min-height:50%;text-align:center;'>
+                <div id='matchedFiles'>
+                    <h1 id='match-title' hidden>Match List</h1>
+                    <div id='matchList'>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+    // Swagger Conformant API
+    API_URL = ''
+    LIST_DIR_URI = '/api/listdir'
+    SCAN_URI = '/api/scan'
+
+
+    const renderMessage = (id, message) => {
+        let message_element = document.querySelector(id)
+        message_element.innerHTML = `<h2>${message}</h2>`
+    }
+
+    const renderFileList = (id, file_list) => {
+        let fileListDiv = document.querySelector(id) 
+        let file_list_html = `<table class='minimalistBlack'><tbody>`
+        file_list_html += `<thead><tr><td>Files</td></tr></thead>`
+        file_list.forEach(filename => {
+            file_list_html += `<tr><td>${filename}</tr></td>`
+        });
+        file_list_html += `</tbody></table>`
+
+        fileListDiv.innerHTML += file_list_html
+    }
+
+    const processListDirResponse = (data) => {
+        if(!data.directory.length) {
+            renderMessage('#fileList', 'No Files Found')
+            return
+        }
+
+        renderFileList('#fileList', data.directory)
+            
+    }
+    
+    const processMatchResponse = (data) => {
+        console.log(data)
+        if(data.message)
+            renderMessage('#matchList', data.message)
+        if(!data.matches.length) {
+            renderMessage('#matchList', 'No Matches Found')
+            return
+        }
+
+        document.querySelector('#match-title').hidden = false
+        renderFileList('#matchList', data.matches)
+    }   
+
+    const fetchFileList = () => {
+        fetch(API_URL+LIST_DIR_URI
+        ).then( (response) => {
+            return response.json()
+        }).then( (data) => {
+            processListDirResponse(data)
+        }).catch( (error) => {
+            console.log("Couldn't fetch file")
+            console.log(error)
+        })
+    }
+
+    const fetchMatchList = (data) => {
+        fetch(API_URL+SCAN_URI, {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, cors, *same-origin
+            headers: {
+                "Content-Type": "application/json",
+            },
+            redirect: "follow", // manual, *follow, error
+            referrer: "no-referrer", // no-referrer, *client
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        }).then( (response) => {
+            return response.json()
+        }).then( (data) => {
+            processMatchResponse(data)
+        }).catch( (error) => {
+            console.log("Couldn't fetch matches")
+            console.log(error)
+        })
+    }
+
+    const scanFiles = () => {
+        event.preventDefault()
+        document.querySelector('#matchList').innerHTML = ''
+        let rule_src = document.querySelector('#rule').value
+        let encoded_rule = btoa(rule_src)
+        rule_json = {
+            'rule': encoded_rule
+        }
+        fetchMatchList(rule_json)
+    }
+
+    fetchFileList();
+
+    </script>
+</body>
+</html>

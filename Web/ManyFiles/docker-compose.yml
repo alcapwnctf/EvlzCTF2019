@@ -1,0 +1,25 @@
+version: "2"
+services:
+  app:
+    build: 
+      context: .
+    networks:
+      - web_nw 
+    working_dir: /deploy/app
+  nginx:
+    image: "nginx:mainline"
+    volumes:
+      - $PWD/conf.d:/etc/nginx/conf.d
+      - $PWD/docs:/www/data/app/docs
+    environment:
+      - net.ipv6.conf.all.forwarding=1 
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - web_nw
+
+networks:
+  web_nw:
+    driver: bridge

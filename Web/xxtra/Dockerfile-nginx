@@ -1,0 +1,4 @@
+FROM nginx:mainline
+
+COPY ./admin /www/data/admin
+COPY ./user /www/data/user

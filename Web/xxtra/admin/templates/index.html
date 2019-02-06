@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Admin!</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/new-age.css" rel="stylesheet">
+
+    <style>
+        html,
+        body {
+            background-color: #222 !important;
+        }
+    </style>
+    
+  </head>
+
+  <body id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" style='color:blck' href="#page-top">SuperAdmin</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+            {% if current_user.has_role('admin') %}
+                <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="/dashboard">Dashboard</a>
+                </li>
+            {% endif %}
+            {% if current_user.is_authenticated %}
+                <li>
+                        <a class="nav-link js-scroll-trigger" href="/logout">Logout</a>
+                </li>
+            {% endif %}
+        </ul>
+        </div>
+      </div>
+    </nav>
+
+    <header class="masthead">
+      <div class="h-100">
+        <div class="row h-100">
+          <div class="col-lg-7 mx-auto my-auto">
+            <div class="header-content mx-auto">
+                <!-- Login Form -->
+                {% if not current_user.is_authenticated%}
+                    {% from "security/_macros.html" import render_field_with_errors, render_field %}
+                    <form action="{{ url_for_security('login') }}" method="POST" name="login_form">
+                    {{ login_form.hidden_tag() }}
+                    {{ render_field_with_errors(login_form.email) }}
+                    {{ render_field_with_errors(login_form.password) }}
+                    {{ render_field_with_errors(login_form.remember) }}
+                    {{ render_field(login_form.next) }} 
+                    {{ render_field(login_form.submit) }}
+                    </form>
+                {% else %}
+                <h1>Welcome, {{ current_user.email }}</h1>
+                {% endif %}
+                
+            </div>
+          </div>
+            <div class="col-lg-5 my-auto text-center ">
+                <h1>State of the Art Admin Dashboard!</h1>
+                <img src="img/scr.png" style='max-width:600px'class='img-fluid' alt="">
+            </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/new-age.min.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,10 @@
+version: "3"
+services:
+    app:
+      build:
+        context: .
+      entrypoint: /deploy/app/entrpoint.sh
+      environment:
+        - HASH_SALT=zasd
+      ports:
+        - "1337:8000"

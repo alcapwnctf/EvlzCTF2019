@@ -1,0 +1,120 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<style>
+    html {
+        font-family: 'Roboto', sans-serif;
+        color: #222
+    }
+    body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #333;
+    }
+
+    .form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+    }
+    .form-signin .form-signin-heading,
+    .form-signin .checkbox {
+    margin-bottom: 10px;
+    }
+    .form-signin .checkbox {
+    font-weight: normal;
+    }
+    .form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+    }
+    .form-signin .form-control:focus {
+    z-index: 2;
+    }
+
+</style>
+</head>
+<body>
+    <div class='container'>
+
+        <div id='login-container'>
+            <form id='loginForm' class="form-signin">
+                <div class='form-group'>
+                    <label for="password" class="sr-only">Username</label>
+                    <input type="username" id="username" name='username' class="form-control" placeholder="Username" required autofocus>
+                </div>
+                <div class='form-group'>
+                    <label for="password" class="sr-only">Password</label>
+                    <input type="password" id="password" name='password' class="form-control" placeholder="Password" required>
+                </div>
+                <div class='form-group'>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                </div>
+            </form>
+            
+        </div>
+
+    </div>
+
+    <script>
+    const hideLogin = function() {
+        let login_div = document.querySelector('#login-container').hidden = true
+    }
+        
+    const URL = "http://35.198.113.131:7000"
+
+    var OAUTH_TOKEN = undefined
+    const OAUTH_TOKEN_URI = "o/token/"
+    const TOKEN_API_URL = URL+OAUTH_TOKEN_URI
+    const OAUTH_CLIENT_ID = "71tmd2j2k6vjP3BwieFGtAmFBf4b36xvbB4RQQoW"
+    
+    const getAccesToken = function() {
+        return OAUTH_TOKEN.access_token
+    }
+    
+    const fetchToken = async function(username, password) {
+        let TOKEN_URL = TOKEN_API_URL+`?grant_type=password&username=${username}&password=${password}&client_id=${OAUTH_CLIENT_ID}`
+        const res = await fetch(TOKEN_URL, {
+            method : 'POST'
+        })
+
+        if(!res.ok) {
+            throw new Error(res.status);
+            return;
+        }
+        
+        let data = await res.json() 
+        return data
+    }
+
+    
+    const handleLogin = async function(form) {
+        form.preventDefault()
+        console.log(form.target)
+        let username = form.target.username.value
+        let password = form.target.password.value
+        
+        let token = await fetchToken(form.target.username.value, form.target.password.value)
+        OAUTH_TOKEN = token
+        hideLogin()
+        const render = function() { document.querySelector('.container').innerHTML += `<h1 class='text-light text-center'>Logged In!</h1>` }
+        render()
+    }
+
+    const form = document.querySelector('#loginForm')
+    form.onsubmit = handleLogin
+    </script>
+    
+
+</body>
+</html>
