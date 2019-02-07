@@ -1,0 +1,64 @@
+<html>
+<head>
+    <title>WeTheCommunity | Home</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    html,
+    body {
+        font-family: 'Roboto', sans-serif;
+    }
+    .grid-container {
+        disply: grid;
+        padding: 10px;
+        grid-template-columns: auto;
+        grid-template-rows: auto auto;
+    }
+    .grid-column {
+        grid-column: auto | auto;
+
+    }
+    .grid-row {
+        grid-row: auto | auto;
+        padding: 10px;
+    }
+    </style>
+</head>
+
+<body class='text-light bg-dark'>
+    <div class='grid-container'>
+        <div class='grid-row'>
+            <div class='grid-column'>
+            {% if admin %}
+                <span style='font-size: 2em' >Flag: <span style='font-weight:bold'>{{ flag }}</span></span>
+            {% else %}
+                <span style='font-size: 2em' ><span style='font-weight:bold'>We</span>, the people's keyword.</span>
+            {% endif %}
+            </div>
+        </div>
+
+        <div class='grid-row' style='width:50%'>
+            <div class='grid-column'>
+            {% if record %}
+                <span>Username: <span style='font-weight:bold'>{{ record['username'] }}</span></span>
+            {% else %}
+                <form class='form-group' method="POST" action="/">
+                    <div class='form-group'>
+                        <label for="username">Username</label>
+                        <input class='form-control' name='username' placeholder="Password">
+                    </div>
+                    <div class='form-group'>
+                        <label for="password">Password</label>
+                        <input class='form-control' name='password' placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <a href='/register' ><button class="btn btn-primary">Register</button></a>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

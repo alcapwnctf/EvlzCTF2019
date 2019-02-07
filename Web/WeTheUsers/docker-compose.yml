@@ -1,0 +1,7 @@
+version: "2"
+services:
+    app:
+      build:
+        context: .
+      ports:
+        - "1337:8000"

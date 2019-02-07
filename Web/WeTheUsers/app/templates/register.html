@@ -1,0 +1,48 @@
+<html>
+<head>
+    <title>WeTheCommunity | Register</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    html {
+                font-family: 'Roboto', sans-serif;     
+            }
+    .grid-container {
+        disply: grid;
+        padding: 10px;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+    }
+    .grid-column {
+        grid-column: auto | auto;
+
+    }
+    .grid-row {
+        grid-row: auto | auto;
+        padding: 10px;
+    }
+    </style>
+</head>
+
+<body class='bg-dark text-light'>
+    <div class='grid-container'>
+        <div class='grid-row' style='width:50%'>
+            <div class='grid-column'>
+                <form class='form-group' method="POST" action="/register">
+                    <div class='form-group'>
+                        <label for="username">Username</label>
+                        <input class='form-control' name='username' placeholder="Password">
+                    </div>
+                    <div class='form-group'>
+                        <label for="password">Password</label>
+                        <input class='form-control' name='password' placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
